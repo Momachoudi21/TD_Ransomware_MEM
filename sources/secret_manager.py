@@ -13,6 +13,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from xorcrypt import xorfile
 
 class SecretManager:
+    #CONSTANTS
     ITERATION = 48000
     TOKEN_LENGTH = 16
     SALT_LENGTH = 16

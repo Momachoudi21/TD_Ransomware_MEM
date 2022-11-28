@@ -13,6 +13,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
+# CONSTANTS
 CNC_ADDRESS = "cnc:6666"
 TOKEN_PATH = "/root/token"
 KEY_PATH = "/root/key"
