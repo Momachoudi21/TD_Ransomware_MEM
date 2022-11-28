@@ -2,7 +2,7 @@
 
 Q1 : Quelle est le nom de l'algorithme de chiffrement ? Est-il robuste et pourquoi ?
 
-l'algorithme de chiffrement est AES-256, il est robuste car il est utilisé par les banques et les gouvernements.
+l'algorithme de chiffrement est AES-256. Il utilise des tailles de clé plus longues telles que 128, 192 et 256 bits pour le cryptage. Par conséquent, cela rend l'algorithme AES plus robuste contre le piratage.
 
 Q2 : Pourquoi ne pas hacher le sel et la clef directement ? Et avec un hmac ?
 
@@ -46,6 +46,12 @@ Justifiez
 on a plusiers options fiables par la bibliothèque cryptographie. on a l'option de chiffrement par blocs qui est fiable car elle permet de récupérer la clef à partir d'un fichier chiffré et d'un fichier clair. on a aussi l'option de chiffrement par flux qui est fiable car elle permet de récupérer la clef à partir d'un fichier chiffré et d'un fichier clair.
 
 B4 : Implémentez votre solution.
+
+on a implémenté notre solution en utilisant la méthode de chiffrement par blocs.
+
+Q5 : Pourquoi il est préférable de vérifier qu'un fichier token.bin n'est pas déjà présent ?
+
+pour éviter de perdre les données du token.bin si on le supprime par erreur ou si on le modifie par erreur et pour éviter de perdre les données du token.bin. d'autre part si on a déjà un token.bin on ne peut pas en créer un autre.
 
 
 
